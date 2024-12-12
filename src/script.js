@@ -30,29 +30,31 @@ document.addEventListener("DOMContentLoaded", () => {
     let remainingTime = duration;
     let isRunning = true;
 
-    function updateTimer() {
-      if (remainingTime > 0 && isRunning) {
+    async function updateTimer() {
+      while (remainingTime > 0 && isRunning) {
         timeDisplay.textContent = `Осталось ${remainingTime} сек.`;
         remainingTime--;
-      } else if (remainingTime <= 0) {
-        clearInterval(timerInterval);
+
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+
+      if (remainingTime <= 0) {
         timerItem.remove();
       }
     }
 
-    const timerInterval = setInterval(updateTimer, 1000);
+    updateTimer();
 
     stopButton.addEventListener("click", () => {
       isRunning = !isRunning;
       stopButton.textContent = isRunning ? "Остановить" : "Продолжить";
+      if (isRunning) updateTimer();
     });
 
     deleteButton.addEventListener("click", () => {
-      clearInterval(timerInterval);
+      isRunning = false;
       timerItem.remove();
     });
-
-    updateTimer();
   }
 
   addTimerButton.addEventListener("click", () => {
