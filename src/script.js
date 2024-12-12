@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         remainingTime--;
       } else if (remainingTime <= 0) {
         clearInterval(timerInterval);
-        timerItem.textContent = "Время вышло!";
+        timerItem.remove();
       }
     }
 
